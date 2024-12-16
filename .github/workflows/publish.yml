@@ -1,8 +1,10 @@
 name: Publish Python Package to GitHub Packages
 
 on:
-  release:
-    types: [created]  # Dispara o workflow ao criar uma release no GitHub
+  push:
+    branches:
+      - master
+
 
 jobs:
   publish:
