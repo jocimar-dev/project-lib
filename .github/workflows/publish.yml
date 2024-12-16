@@ -1,0 +1,39 @@
+name: Publish Python Package to GitHub Packages
+
+on:
+  release:
+    types: [created]  # Dispara o workflow ao criar uma release no GitHub
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest  # Define o ambiente de execução
+
+    steps:
+      # 1. Clona o repositório
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      # 2. Configura o ambiente Python
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"  # Define a versão do Python
+
+      # 3. Instala dependências necessárias
+      - name: Instalar dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install setuptools wheel twine
+
+      # 4. Cria o pacote Python
+      - name: Construir o pacote
+        run: |
+          python setup.py sdist
+
+      # 5. Publica o pacote no GitHub Packages
+      - name: Upload do pacote para GitHub Packages
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          twine upload --repository-url https://pypi.pkg.github.com/${{ github.repository_owner }} dist/*
