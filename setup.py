@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="Project",
+    name="project_test_lib_ciandt",
     version="0.1.0",
     description="Uma biblioteca de exemplo para saudação",
     author="Seu Nome",
